@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --ink: #0b1120;
+  --ink-soft: #3a4256;
+  --muted: #6b7488;
+  --line: #e7e9ef;
+  --brand: #1b39ff;
+  --brand-ink: #1230d6;
+  --brand-wash: #eef1ff;
+  --energy: #ff5a2c;
+}
+
+@layer base {
+  * {
+    border-color: var(--line);
+  }
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-feature-settings: "ss01", "cv01";
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection {
+    background: var(--brand);
+    color: #fff;
+  }
+  :focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  .container-x {
+    @apply mx-auto w-full max-w-[1200px] px-5 sm:px-8;
+  }
+  .eyebrow {
+    @apply font-mono text-[11px] uppercase tracking-[0.22em] text-muted;
+  }
+  .display {
+    @apply font-display font-extrabold tracking-tightest leading-[0.95];
+  }
+  .stat-num {
+    @apply font-mono tabular-nums;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
