@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import { SiteNav } from "@/components/marketing/site-nav";
 import { SiteFooter } from "@/components/marketing/site-footer";
@@ -9,6 +8,7 @@ import { BadgeCheck, MapPin, Instagram, Youtube } from "lucide-react";
 import { getAthleteBySlug } from "@/lib/data/athletes";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { AthleteCta } from "@/components/marketing/athlete-cta";
+import { HeroMedia } from "@/components/marketing/hero-media";
 import { sportImageUrl } from "@/lib/sport-images";
 
 export const revalidate = 60;
@@ -40,14 +40,7 @@ export default async function AthleteProfile({
       <main className="flex-1">
         {/* Hero */}
         <div className="relative overflow-hidden bg-panel text-white">
-          <Image
-            src={sportImageUrl(a.sport, 1600)}
-            alt=""
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover opacity-30"
-          />
+          <HeroMedia src={sportImageUrl(a.sport, 1600)} opacity={32} />
           <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-panel via-panel/80 to-panel/40" />
           <div className="container-x relative py-14">
             <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-white/50">
@@ -79,7 +72,7 @@ export default async function AthleteProfile({
 
         <div className="container-x grid gap-6 py-12 lg:grid-cols-[1.6fr_1fr]">
           <div className="space-y-6">
-            <Card className="p-7">
+            <Card className="p-7 transition-all duration-200 hover:-translate-y-1 hover:shadow-lift">
               <h2 className="font-display text-xl font-bold">About</h2>
               <p className="mt-3 leading-relaxed text-ink-soft">{a.bio}</p>
               <div className="mt-6 flex flex-wrap gap-2">
@@ -91,11 +84,11 @@ export default async function AthleteProfile({
               </div>
             </Card>
 
-            <Card className="p-7">
+            <Card className="p-7 transition-all duration-200 hover:-translate-y-1 hover:shadow-lift">
               <h2 className="font-display text-xl font-bold">Audience</h2>
               <div className="mt-5 grid grid-cols-3 gap-4">
                 {a.stats.map(([platform, count]: [string, string]) => (
-                  <div key={platform} className="rounded-xl border border-line p-4">
+                  <div key={platform} className="rounded-xl border border-line p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-brand/40">
                     <div className="flex items-center gap-1.5 text-muted">
                       {platform === "Instagram" && <Instagram className="h-3.5 w-3.5" />}
                       {platform === "YouTube" && <Youtube className="h-3.5 w-3.5" />}

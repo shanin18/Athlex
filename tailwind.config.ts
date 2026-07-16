@@ -52,11 +52,27 @@ const config: Config = {
           "80%": { transform: "scaleX(0.9)" },
           "100%": { transform: "scaleX(0.9)" },
         },
+        "ken-burns": {
+          "0%": { transform: "scale(1) translate(0, 0)" },
+          "100%": { transform: "scale(1.12) translate(-1.5%, -1.5%)" },
+        },
+        "blob-drift": {
+          "0%, 100%": { transform: "translate(0, 0) scale(1)" },
+          "33%": { transform: "translate(4%, -6%) scale(1.15)" },
+          "66%": { transform: "translate(-3%, 4%) scale(0.95)" },
+        },
+        "glow-pulse": {
+          "0%, 100%": { opacity: "0.5" },
+          "50%": { opacity: "1" },
+        },
       },
       animation: {
-        marquee: "marquee 40s linear infinite",
+        marquee: "marquee 26s linear infinite",
         "fade-up": "fade-up 0.6s cubic-bezier(0.16,1,0.3,1) both",
         "route-progress": "route-progress 2.5s cubic-bezier(0.1,0.7,0.4,1) forwards",
+        "ken-burns": "ken-burns 16s ease-out infinite alternate",
+        "blob-drift": "blob-drift 12s ease-in-out infinite",
+        "glow-pulse": "glow-pulse 2.5s ease-in-out infinite",
       },
     },
   },

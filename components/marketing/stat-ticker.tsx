@@ -20,7 +20,7 @@ export function StatTicker() {
       <div className="flex w-max animate-marquee items-center gap-10">
         {stream.map((r, i) => (
           <div key={i} className="flex items-center gap-3 whitespace-nowrap">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#39e08e]" />
+            <span className="h-1.5 w-1.5 animate-glow-pulse rounded-full bg-[#39e08e]" />
             <span className="font-mono text-[13px] font-medium text-white/90">
               {r.name}
             </span>

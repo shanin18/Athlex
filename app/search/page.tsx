@@ -61,14 +61,14 @@ export default async function SearchPage() {
         <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {ATHLETES.map((a) => (
             <Link key={a.slug} href={`/athletes/${a.slug}`}>
-              <Card className="overflow-hidden transition-shadow hover:shadow-lift">
-                <div className="relative h-40">
+              <Card className="group overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-lift">
+                <div className="relative h-40 overflow-hidden">
                   <Image
                     src={sportImageUrl(a.sport)}
                     alt={a.sport}
                     fill
                     sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                    className="object-cover"
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-panel/80 via-panel/10 to-transparent" />
                   <span className="absolute left-4 top-4 font-mono text-[11px] uppercase tracking-widest text-white/70">

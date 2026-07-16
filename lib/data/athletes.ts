@@ -44,6 +44,19 @@ export async function getAthletes(): Promise<AthleteCard[]> {
   return data.map(toCard);
 }
 
+export async function getSportCounts(): Promise<Record<string, number>> {
+  const supabase = await createClient();
+  const { data, error } = await supabase.from("athlete_profiles").select("sports(name)");
+  if (error || !data) return {};
+  const counts: Record<string, number> = {};
+  for (const row of data as any[]) {
+    const name = row.sports?.name;
+    if (!name) continue;
+    counts[name] = (counts[name] ?? 0) + 1;
+  }
+  return counts;
+}
+
 export async function getFeaturedAthletes(limit = 3): Promise<AthleteCard[]> {
   const supabase = await createClient();
   const { data, error } = await supabase

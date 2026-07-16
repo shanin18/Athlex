@@ -1,9 +1,9 @@
 import Link from "next/link";
-import Image from "next/image";
 import { ArrowRight, BadgeCheck, Wallet, LineChart, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { HeroMedia } from "@/components/marketing/hero-media";
 import { sportImageUrl } from "@/lib/sport-images";
 
 export const metadata = { title: "For athletes" };
@@ -35,14 +35,7 @@ export default function ForAthletesPage() {
   return (
     <>
       <section className="relative overflow-hidden bg-panel text-white">
-        <Image
-          src={sportImageUrl("Surfing", 1800)}
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover opacity-30"
-        />
+        <HeroMedia src={sportImageUrl("Surfing", 1800)} video="/videos/surfing_slowmo.mp4" opacity={32} />
         <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-panel via-panel/80 to-panel/50" />
         <div className="container-x relative py-24 md:py-32">
           <Badge className="border-brand/30 bg-white/10 text-white">For athletes</Badge>
@@ -63,8 +56,8 @@ export default function ForAthletesPage() {
       <section className="container-x py-20 md:py-28">
         <div className="grid gap-5 md:grid-cols-2">
           {BENEFITS.map((b) => (
-            <Card key={b.title} className="p-7">
-              <span className="grid h-11 w-11 place-items-center rounded-xl bg-brand-wash text-brand">
+            <Card key={b.title} className="group p-7 transition-all duration-200 hover:-translate-y-1 hover:shadow-lift">
+              <span className="grid h-11 w-11 place-items-center rounded-xl bg-brand-wash text-brand transition-transform duration-200 group-hover:scale-110">
                 <b.icon className="h-5 w-5" />
               </span>
               <h3 className="mt-5 font-display text-xl font-bold">{b.title}</h3>

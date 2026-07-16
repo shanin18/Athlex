@@ -6,26 +6,24 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar } from "@/components/ui/avatar";
 import { StatTicker } from "@/components/marketing/stat-ticker";
-import { getFeaturedAthletes } from "@/lib/data/athletes";
+import { BrandMarquee } from "@/components/marketing/brand-marquee";
+import { CountUp } from "@/components/marketing/count-up";
+import { TiltCard } from "@/components/marketing/tilt-card";
+import { SportsShowcase } from "@/components/marketing/sports-showcase";
+import { HeroMedia } from "@/components/marketing/hero-media";
+import { getFeaturedAthletes, getSportCounts } from "@/lib/data/athletes";
 import { sportImageUrl } from "@/lib/sport-images";
 
 const SPORTS = ["Surfing", "Track & Field", "Basketball", "Climbing", "Football", "Cycling"];
 
 export default async function HomePage() {
-  const FEATURED = await getFeaturedAthletes(3);
+  const [FEATURED, sportCounts] = await Promise.all([getFeaturedAthletes(3), getSportCounts()]);
 
   return (
     <>
       {/* HERO */}
       <section className="relative overflow-hidden bg-panel text-white">
-        <Image
-          src={sportImageUrl("Track & Field", 1800)}
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover opacity-25"
-        />
+        <HeroMedia src={sportImageUrl("Track & Field", 1800)} video="/videos/athlet_running.mp4" opacity={28} />
         <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-panel/70 via-panel/85 to-panel" />
         <div className="container-x relative grid gap-14 pb-16 pt-20 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:pb-24 lg:pt-28">
           <div className="animate-fade-up">
@@ -69,22 +67,28 @@ export default async function HomePage() {
               </div>
               <div className="mt-6 flex items-end justify-between">
                 <div>
-                  <div className="stat-num text-6xl font-bold leading-none">14,208</div>
+                  <CountUp value={14208} className="stat-num text-6xl font-bold leading-none" />
                   <div className="mt-2 text-sm text-white/50">verified athletes listed</div>
                 </div>
                 <div className="text-right">
-                  <div className="stat-num text-2xl font-bold text-[#7d92ff]">$4.6M</div>
+                  <CountUp
+                    value={4.6}
+                    prefix="$"
+                    suffix="M"
+                    decimals={1}
+                    className="stat-num text-2xl font-bold text-[#7d92ff]"
+                  />
                   <div className="mt-1 text-xs text-white/40">deals facilitated</div>
                 </div>
               </div>
               <div className="mt-6 grid grid-cols-3 gap-3 border-t border-white/10 pt-5">
                 {[
-                  ["48", "sports"],
-                  ["112", "countries"],
-                  ["9,300", "brands"],
+                  [48, "sports"],
+                  [112, "countries"],
+                  [9300, "brands"],
                 ].map(([n, l]) => (
                   <div key={l}>
-                    <div className="stat-num text-lg font-bold">{n}</div>
+                    <CountUp value={n as number} className="stat-num text-lg font-bold" />
                     <div className="font-mono text-[10px] uppercase tracking-widest text-white/40">
                       {l}
                     </div>
@@ -97,6 +101,8 @@ export default async function HomePage() {
 
         <StatTicker />
       </section>
+
+      <BrandMarquee />
 
       {/* HOW IT WORKS */}
       <section className="container-x py-20 md:py-28">
@@ -127,7 +133,10 @@ export default async function HomePage() {
               body: "Fund a deal through Stripe. Athletes are paid out on completion — Podium handles the plumbing.",
             },
           ].map((f) => (
-            <Card key={f.step} className="p-7">
+            <Card
+              key={f.step}
+              className="p-7 transition-all duration-200 hover:-translate-y-1 hover:shadow-lift"
+            >
               <div className="flex items-center justify-between">
                 <span className="grid h-11 w-11 place-items-center rounded-xl bg-brand-wash text-brand">
                   <f.icon className="h-5 w-5" />
@@ -159,39 +168,41 @@ export default async function HomePage() {
             <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {FEATURED.map((a) => (
                 <Link key={a.slug} href={`/athletes/${a.slug}`}>
-                  <Card className="overflow-hidden transition-shadow hover:shadow-lift">
-                    <div className="relative h-44">
-                      <Image
-                        src={sportImageUrl(a.sport)}
-                        alt={a.sport}
-                        fill
-                        sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                        className="object-cover"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-panel/80 via-panel/10 to-transparent" />
-                      <span className="absolute left-4 top-4 font-mono text-[11px] uppercase tracking-widest text-white/70">
-                        {a.sport}
-                      </span>
-                      <div className="absolute bottom-4 left-4">
-                        <div className="stat-num text-3xl font-bold text-white">{a.reach}</div>
-                        <div className="font-mono text-[10px] uppercase tracking-widest text-white/60">
-                          total reach
+                  <TiltCard>
+                    <Card className="overflow-hidden transition-shadow hover:shadow-lift">
+                      <div className="relative h-44">
+                        <Image
+                          src={sportImageUrl(a.sport)}
+                          alt={a.sport}
+                          fill
+                          sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                          className="object-cover"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-panel/80 via-panel/10 to-transparent" />
+                        <span className="absolute left-4 top-4 font-mono text-[11px] uppercase tracking-widest text-white/70">
+                          {a.sport}
+                        </span>
+                        <div className="absolute bottom-4 left-4">
+                          <div className="stat-num text-3xl font-bold text-white">{a.reach}</div>
+                          <div className="font-mono text-[10px] uppercase tracking-widest text-white/60">
+                            total reach
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="p-5">
-                      <div className="flex items-center gap-2.5">
-                        <Avatar seed={a.slug} size={28} />
-                        <h3 className="font-display text-lg font-bold">{a.name}</h3>
-                        {a.verified && <BadgeCheck className="h-4 w-4 text-brand" />}
+                      <div className="p-5">
+                        <div className="flex items-center gap-2.5">
+                          <Avatar seed={a.slug} size={28} />
+                          <h3 className="font-display text-lg font-bold">{a.name}</h3>
+                          {a.verified && <BadgeCheck className="h-4 w-4 text-brand" />}
+                        </div>
+                        <p className="text-sm text-muted">{a.loc}</p>
+                        <div className="mt-4 flex items-center justify-between border-t border-line pt-4">
+                          <span className="stat-num text-sm font-bold">{a.rate}<span className="font-sans font-normal text-muted"> /campaign</span></span>
+                          <span className="text-sm font-medium text-brand">View →</span>
+                        </div>
                       </div>
-                      <p className="text-sm text-muted">{a.loc}</p>
-                      <div className="mt-4 flex items-center justify-between border-t border-line pt-4">
-                        <span className="stat-num text-sm font-bold">{a.rate}<span className="font-sans font-normal text-muted"> /campaign</span></span>
-                        <span className="text-sm font-medium text-brand">View →</span>
-                      </div>
-                    </div>
-                  </Card>
+                    </Card>
+                  </TiltCard>
                 </Link>
               ))}
             </div>
@@ -205,27 +216,7 @@ export default async function HomePage() {
         <h2 className="display mt-4 max-w-xl text-4xl md:text-5xl">
           From the surf to the track, brands find talent here.
         </h2>
-        <div className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
-          {SPORTS.map((s) => (
-            <Link
-              key={s}
-              href={`/search?sport=${encodeURIComponent(s)}`}
-              className="group relative h-32 overflow-hidden rounded-2xl"
-            >
-              <Image
-                src={sportImageUrl(s, 400)}
-                alt={s}
-                fill
-                sizes="200px"
-                className="object-cover transition-transform duration-300 group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-panel/50 transition-colors group-hover:bg-panel/30" />
-              <span className="absolute bottom-3 left-3 font-mono text-[11px] font-semibold uppercase tracking-widest text-white">
-                {s}
-              </span>
-            </Link>
-          ))}
-        </div>
+        <SportsShowcase sports={SPORTS} counts={sportCounts} />
       </section>
 
       {/* WHY ATHLLO */}
@@ -316,13 +307,7 @@ export default async function HomePage() {
       {/* CTA */}
       <section className="container-x pb-24">
         <div className="relative overflow-hidden rounded-3xl bg-panel px-8 py-16 text-center text-white md:py-20">
-          <Image
-            src={sportImageUrl("Cycling", 1600)}
-            alt=""
-            fill
-            sizes="100vw"
-            className="object-cover opacity-20"
-          />
+          <HeroMedia src={sportImageUrl("Cycling", 1600)} video="/videos/cycling.mp4" opacity={20} />
           <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-panel via-panel/80 to-panel/60" />
           <div className="relative">
             <h2 className="display mx-auto max-w-2xl text-4xl md:text-5xl">

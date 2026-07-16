@@ -48,8 +48,8 @@ export default function PricingPage() {
             key={t.name}
             className={
               t.highlight
-                ? "relative border-brand p-8 shadow-lift ring-1 ring-brand"
-                : "p-8"
+                ? "relative border-brand p-8 shadow-lift ring-1 ring-brand transition-all duration-200 hover:-translate-y-1"
+                : "p-8 transition-all duration-200 hover:-translate-y-1 hover:shadow-lift"
             }
           >
             {t.highlight && (
